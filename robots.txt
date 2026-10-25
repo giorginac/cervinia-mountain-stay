@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://giorginac.github.io/cervinia-mountain-stay/sitemap.xml
