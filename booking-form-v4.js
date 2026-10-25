@@ -1,6 +1,8 @@
 /* Formspree prenotazioni: indipendente da calendario e gallerie. */
 (function(){
 'use strict';
+const english=document.documentElement.lang==='en';
+const translate=(it,en)=>english?en:it;
 const form=document.getElementById('request');
 if(!form)return;
 const feedback=document.getElementById('formstatus');
@@ -15,7 +17,7 @@ function note(message,type){
  feedback.scrollIntoView({block:'nearest',behavior:'smooth'});
 }
 form.addEventListener('invalid',function(){
- note('Controlla i campi obbligatori evidenziati. Nessuna richiesta è stata inviata.','error');
+ note(translate('Controlla i campi obbligatori evidenziati. Nessuna richiesta è stata inviata.','Please complete all required fields. Your enquiry has not been sent.'),'error');
 },true);
 form.addEventListener('submit',async function(event){
  event.preventDefault();
@@ -23,13 +25,13 @@ form.addEventListener('submit',async function(event){
  const arrival=String(data.get('arrivo')||'');
  const departure=String(data.get('partenza')||'');
  if(!arrival||!departure||departure<=arrival){
-  note('Controlla le date: la partenza deve essere dopo l’arrivo.','error');
+  note(translate('Controlla le date: la partenza deve essere dopo l’arrivo.','Please check your dates: departure must be after arrival.'),'error');
   return;
  }
  button.disabled=true;
  const original=button.textContent;
- button.textContent='Invio in corso…';
- note('Invio della richiesta in corso…','info');
+ button.textContent=translate('Invio in corso…','Sending…');
+ note(translate('Invio della richiesta in corso…','Sending your enquiry…'),'info');
  try{
   data.append('_subject','Nuova richiesta – Cervinia Mountain Stay');
   const response=await fetch(endpoint,{method:'POST',body:data,headers:{'Accept':'application/json'}});
@@ -41,7 +43,7 @@ form.addEventListener('submit',async function(event){
    }catch(ignore){}
    throw Error('Formspree HTTP '+response.status+(description?': '+description:''));
   }
-  note('Richiesta inviata correttamente! Ti risponderemo per confermare disponibilità e condizioni. La prenotazione non è ancora confermata.','success');
+  note(translate('Richiesta inviata correttamente! Ti risponderemo per confermare disponibilità e condizioni. La prenotazione non è ancora confermata.','Enquiry sent successfully! We will reply to confirm availability and conditions. Your booking is not yet confirmed.'),'success');
   form.reset();
  }catch(error){
   const detail=String(error?.message||'').slice(0,240);
