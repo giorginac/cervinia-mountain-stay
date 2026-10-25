@@ -51,46 +51,6 @@ fetch('availability.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('not
  render();
 }).catch(()=>{document.getElementById('calendar-status').textContent='Calendario dimostrativo: sincronizzazione Airbnb non attiva. Le date future sono da verificare.';render()});
 render();
-const requestForm=document.getElementById('request');
-const requestStatus=document.getElementById('formstatus');
-function showRequestStatus(message,kind='info'){
- requestStatus.hidden=false;
- requestStatus.className='form-feedback form-feedback--'+kind;
- requestStatus.textContent=message;
- requestStatus.scrollIntoView({block:'nearest',behavior:'smooth'});
-}
-requestForm.addEventListener('invalid',event=>{
- showRequestStatus('Controlla i campi obbligatori: completa quelli mancanti o non validi. Nessuna richiesta è stata inviata.','error');
-},true);
-requestForm.addEventListener('submit',async e=>{
- e.preventDefault();
- const get=id=>document.getElementById(id).value.trim();
- const submitButton=e.currentTarget.querySelector('button[type="submit"]');
- const property=get('property'),start=get('arrival'),end=get('departure');
- if(!start||!end||end<=start){showRequestStatus('Verifica le date: la partenza deve essere successiva all’arrivo.','error');return}
- if(hasBlockedBetween(start,end)){showRequestStatus('Periodo con date occupate: scegli un altro intervallo.','error');return}
- const request={appartamento:property,arrivo:start,partenza:end,numero_ospiti:get('guests'),nome:get('guestname'),email:get('email'),messaggio:get('message'),_subject:'Nuova richiesta – Cervinia Mountain Stay'};
- const oldLabel=submitButton.textContent;
- try{
-  submitButton.disabled=true;
-  submitButton.textContent='Invio in corso…';
-  showRequestStatus('Invio della richiesta in corso…','info');
-  const response=await fetch(CONTACT_FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(request)});
-  if(!response.ok){
-   const details=await response.json().catch(()=>null);
-   throw new Error(details?.errors?.map(e=>e.message).join('; ')||'Invio non riuscito');
-  }
-  showRequestStatus('Richiesta inviata correttamente! Riceverai una risposta per confermare disponibilità e condizioni. Non è ancora una prenotazione confermata.','success');
-  e.currentTarget.reset();
-  changeProperty('Le Petit Chalet');
- }catch(err){
-  showRequestStatus('Richiesta NON inviata. Controlla la connessione o riprova tra poco. Se il problema continua, utilizza il collegamento Airbnb dell’appartamento.','error');
- }finally{
-  submitButton.disabled=false;
-  submitButton.textContent=oldLabel;
- }
-});
-
 // Mobile navigation
 const menuToggle=document.querySelector('.menu-toggle');
 const mainNav=document.getElementById('main-nav');
