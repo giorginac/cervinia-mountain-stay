@@ -1,0 +1,34 @@
+name: Sync Airbnb availability
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */3 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: airbnb-availability
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch Airbnb iCal feeds
+        env:
+          AIRBNB_ICAL_PETIT: ${{ secrets.AIRBNB_ICAL_PETIT }}
+          AIRBNB_ICAL_PASSO: ${{ secrets.AIRBNB_ICAL_PASSO }}
+        run: python scripts/sync_airbnb.py
+      - name: Commit public availability snapshot
+        run: |
+          if git diff --quiet -- availability.json; then
+            echo "No availability changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add availability.json
+          git commit -m "Aggiorna disponibilità Airbnb"
+          git push
