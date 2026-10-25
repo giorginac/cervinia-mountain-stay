@@ -33,11 +33,19 @@ form.addEventListener('submit',async function(event){
  try{
   data.append('_subject','Nuova richiesta – Cervinia Mountain Stay');
   const response=await fetch(endpoint,{method:'POST',body:data,headers:{'Accept':'application/json'}});
-  if(!response.ok)throw Error('Risposta Formspree '+response.status);
+  if(!response.ok){
+   let description='';
+   try{
+    const result=await response.json();
+    description=Array.isArray(result.errors)?result.errors.map(e=>e.message).filter(Boolean).join('; '):String(result.error||'');
+   }catch(ignore){}
+   throw Error('Formspree HTTP '+response.status+(description?': '+description:''));
+  }
   note('Richiesta inviata correttamente! Ti risponderemo per confermare disponibilità e condizioni. La prenotazione non è ancora confermata.','success');
   form.reset();
  }catch(error){
-  note('Invio non riuscito. La richiesta non è stata spedita. Riprova, oppure contattaci tramite Airbnb.','error');
+  const detail=String(error?.message||'').slice(0,240);
+  note('Richiesta NON inviata. '+(detail||'Impossibile contattare Formspree. Verifica la connessione o riprova.')+' — Controlla su Formspree che il modulo sia attivo e l’email destinataria verificata.','error');
  }finally{
   button.disabled=false;
   button.textContent=original;
