@@ -1,12 +1,7 @@
-# Cervinia Mountain Stay
+# Cervinia Mountain Stay — anteprima pubblica
 
-Sito ufficiale dei due appartamenti Le Petit Chalet e Passo nel Cielo a Breuil-Cervinia.
+Questo archivio contiene i file pronti da caricare **nella radice** del repository `giorginac/cervinia-mountain-stay` (non caricare il file ZIP direttamente).
 
-## Pubblicazione
-Caricare nella radice del repository i file del sito estratti dall'archivio ZIP: `index.html`, `style.css`, `script.js`, `slideshow.js`, `gallery.js` e la cartella `assets/` con tutte le fotografie. **Non caricare il file ZIP come unico file**.
+La galleria e gli slideshow sono inclusi. Il form per richieste dirette e la sincronizzazione Airbnb non sono attivi nella versione di anteprima. Prima di ricevere dati personali e prenotazioni occorrono configurazione e informativa privacy, dati identificativi obbligatori, termini e calendario sincronizzato.
 
-Poi attivare **Settings → Pages → Build and deployment → Deploy from a branch → main / (root) → Save**.
-
-URL previsto: https://giorginac.github.io/cervinia-mountain-stay/
-
-Nota: il modulo richieste non recapita ancora email; prima di usarlo configurare un endpoint privato e verificare l'invio. La sincronizzazione calendari Airbnb richiede ulteriori configurazioni.
+Attivazione Pages: Settings > Pages > Deploy from a branch > main > /(root) > Save.

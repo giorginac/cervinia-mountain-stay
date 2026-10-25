@@ -1,0 +1,16 @@
+{
+  "connected": false,
+  "updated_at": null,
+  "properties": {
+    "Le Petit Chalet": {
+      "blocked": []
+    },
+    "Passo nel Cielo": {
+      "blocked": []
+    }
+  },
+  "status": {
+    "Le Petit Chalet": "not_configured",
+    "Passo nel Cielo": "not_configured"
+  }
+}
