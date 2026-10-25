@@ -29,15 +29,15 @@
 <div aria-label="Calendario mensile" class="days" id="calendar-days"></div>
 <p id="calendar-status" class="sr-only" role="status" aria-live="polite"></p><div class="legend"><span><i class="dot"></i>Date da verificare</span><span><i class="dot off"></i>Occupato/non selezionabile</span><span><i class="dot sel"></i>Selezionato</span></div>
 </div>
-<form class="requestform" id="request">
-<label>Appartamento<select id="property" required=""><option value="Le Petit Chalet">Le Petit Chalet</option><option value="Passo nel Cielo">Passo nel Cielo</option></select></label>
-<div class="fields"><label>Arrivo<input id="arrival" required="" type="date"/></label><label>Partenza<input id="departure" required="" type="date"/></label></div>
-<label>Numero ospiti<input id="guests" max="20" min="1" required="" type="number" value="2"/></label>
-<label>Nome<input autocomplete="name" id="guestname" required="" type="text"/></label>
-<label>Email<input autocomplete="email" id="email" required="" type="email"/></label>
-<label>Messaggio (facoltativo)<textarea id="message" rows="3"></textarea></label>
-<button class="button" type="submit" disabled="disabled" aria-disabled="true">Richieste dirette disponibili a breve</button>
-<p class="fine">Il modulo per le richieste dirette non è ancora attivo. Per prenotare utilizza temporaneamente i link Airbnb indicati nelle schede degli appartamenti.</p><p class="fine" id="formstatus" role="status"></p>
+<form class="requestform" id="request" action="https://formspree.io/f/xljjgqly" method="POST">
+<label>Appartamento<select id="property" required="" name="appartamento"><option value="Le Petit Chalet">Le Petit Chalet</option><option value="Passo nel Cielo">Passo nel Cielo</option></select></label>
+<div class="fields"><label>Arrivo<input id="arrival" required="" type="date"/ name="arrivo"></label><label>Partenza<input id="departure" required="" type="date"/ name="partenza"></label></div>
+<label>Numero ospiti<input id="guests" max="20" min="1" required="" type="number" value="2"/ name="numero_ospiti"></label>
+<label>Nome<input autocomplete="name" id="guestname" required="" type="text"/ name="nome"></label>
+<label>Email<input autocomplete="email" id="email" required="" type="email"/ name="email"></label>
+<label>Messaggio (facoltativo)<textarea id="message" rows="3" name="messaggio"></textarea></label>
+<button class="button" type="submit">Invia richiesta di disponibilità</button>
+<p class="fine">La richiesta non costituisce una prenotazione confermata. Riceverai una risposta sulla disponibilità e sulle condizioni.</p><p class="fine" id="formstatus" role="status" aria-live="polite"></p>
 </form>
 </div>
 </section><section class="closing"><span class="eyebrow light">CERVINIA MOUNTAIN STAY</span><h2>La montagna ti aspetta.</h2><p>Due appartamenti, il Cervino sullo sfondo e tutto il tempo per vivere la tua vacanza.</p><a class="button light-btn" href="#prenota">Richiedi le tue date ↗</a></section>
