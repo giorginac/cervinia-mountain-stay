@@ -1,6 +1,6 @@
 // Endpoint POST HTTPS del servizio di contatto, da configurare in fase di pubblicazione.
 // L'indirizzo email personale resta impostato solo nel servizio lato server.
-const CONTACT_FORM_ENDPOINT = '';
+const CONTACT_FORM_ENDPOINT = 'https://formspree.io/f/xljjgqly';
 const propSel=document.getElementById('property'), calendarProp=document.getElementById('calendar-property');
 const arrival=document.getElementById('arrival'),departure=document.getElementById('departure');
 const days=document.getElementById('calendar-days'),monthLabel=document.getElementById('month-label');
@@ -60,15 +60,15 @@ document.getElementById('request').addEventListener('submit',async e=>{
  if(end<=start){status.textContent='La partenza deve essere successiva all’arrivo.';return}
  if(hasBlockedBetween(start,end)){status.textContent='Periodo con date occupate: seleziona un altro intervallo.';return}
  if(!CONTACT_FORM_ENDPOINT){status.textContent='Modulo in preparazione: il recapito privato sarà collegato quando il sito sarà online. Nessuna richiesta è stata inviata.';return}
- const request={property,arrival:start,departure:end,guests:get('guests'),name:get('guestname'),email:get('email'),message:get('message')};
+ const request={appartamento:property,arrivo:start,partenza:end,numero_ospiti:get('guests'),nome:get('guestname'),email:get('email'),messaggio:get('message'),_subject:'Nuova richiesta – Cervinia Mountain Stay'};
  try{
   submitButton.disabled=true;
   status.textContent='Invio della richiesta in corso…';
-  const response=await fetch(CONTACT_FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(request)});
-  if(!response.ok)throw new Error('Invio non riuscito');
-  status.textContent='Richiesta inviata. La prenotazione è soggetta a conferma.';
+  const response=await fetch(CONTACT_FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(request)});
+  if(!response.ok){const details=await response.json().catch(()=>null);throw new Error(details?.errors?.map(e=>e.message).join('; ')||'Invio non riuscito')}
+  status.textContent='Richiesta inviata correttamente. Ti risponderemo per confermare disponibilità e condizioni: la prenotazione non è ancora confermata.';
   e.currentTarget.reset();changeProperty('Le Petit Chalet');
- }catch(err){status.textContent='Non siamo riusciti a inviare la richiesta. Riprova più tardi.'}
+ }catch(err){status.textContent='Non siamo riusciti a inviare la richiesta. Verifica i dati e riprova più tardi.'}
  finally{submitButton.disabled=false}
 });
 
