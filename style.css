@@ -103,3 +103,14 @@ body.gallery-is-open{overflow:hidden}
 .form-feedback--success{background:#edf7f0;border-color:#92bd9b;color:#1b5731}
 .form-feedback--error{background:#fff0ed;border-color:#d89d92;color:#81382a}
 .requestform button[type="submit"]:disabled{opacity:.65;cursor:wait}
+
+/* Privacy notice and language switch */
+.lang-switch{font-weight:700!important;letter-spacing:.09em;border:1px solid currentColor;padding:.35rem .65rem;border-radius:100px;white-space:nowrap}
+.privacy-section{padding:64px 7%;background:#f7f3ec;color:#243444}
+.privacy-inner{max-width:980px;margin:auto}
+.privacy-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.1rem,4vw,3.4rem);margin:.5rem 0 1.25rem}
+.privacy-inner p{font-size:1rem;line-height:1.8;max-width:90ch;margin:0 0 1rem}
+.privacy-inner a,.privacy-consent a{text-decoration:underline;text-underline-offset:3px;color:inherit}
+.requestform .privacy-consent{display:flex;align-items:flex-start;gap:12px;font-size:.87rem;font-weight:400;line-height:1.5;margin:14px 0}
+.requestform .privacy-consent input[type="checkbox"]{width:19px;height:19px;flex:none;margin-top:3px;accent-color:#243444}
+@media(max-width:720px){.privacy-section{padding:44px 6%}.lang-switch{padding:.3rem .55rem}}
